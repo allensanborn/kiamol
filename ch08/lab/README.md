@@ -9,7 +9,7 @@ kubectl apply -f lab/nginx/
 Get the URL and browse:
 
 ```
-kubectl get svc nginx -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8088'
+kubectl get svc nginx -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8088'
 ```
 
 > It works, but its just a single Pod writing logs to an EmptyDir.

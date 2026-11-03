@@ -2,7 +2,7 @@ cd /kiamol/ch05
 
 kubectl apply -f todo-list/web/
 kubectl wait --for=condition=Ready pod -l app=todo-web
-kubectl get svc todo-web -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8081/new'
+kubectl get svc todo-web -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8081/new'
 
 #
 

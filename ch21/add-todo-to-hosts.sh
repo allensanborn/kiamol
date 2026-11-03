@@ -2,7 +2,7 @@
 
 CONTROLLER='ingress-nginx-controller'
 NS='kiamol-ingress-nginx'
-IP=$(kubectl get svc $CONTROLLER -o jsonpath='{.status.loadBalancer.ingress[0].*}' -n $NS)
+IP=$(kubectl get svc $CONTROLLER -o jsonpath='{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}' -n $NS)
 if [ "$IP" = "localhost" ]; then 
     IP='127.0.0.1'
 fi

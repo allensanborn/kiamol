@@ -9,7 +9,7 @@ kubectl apply -f ./todo-list/
 Get the URL and browse:
 
 ```
-kubectl get svc todo-web -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8080'
+kubectl get svc todo-web -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8080'
 ```
 
 

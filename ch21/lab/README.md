@@ -17,7 +17,7 @@ kubectl apply -f lab/todo-list/
 Get the ingress URL:
 
 ```
-kubectl get svc -n contour-external envoy -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:80'
+kubectl get svc -n contour-external envoy -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:80'
 ```
 
 > Map your `hosts` file to use the Contour IP for `todo.kiamol.local` and `api.todo.kiamol.local`

@@ -9,7 +9,7 @@ kubectl apply -f lab/v1/
 Get the URL and browse:
 
 ```
-kubectl get svc vweb -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8090'
+kubectl get svc vweb -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8090'
 ```
 
 > v1 is the blue deployment

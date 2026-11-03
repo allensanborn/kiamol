@@ -9,7 +9,7 @@ kubectl apply -f lab/numbers/
 Get the URL to browse to:
 
 ```
-kubectl get svc numbers-web -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8086'
+kubectl get svc numbers-web -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8086'
 ```
 
 > Browse and try to get a random number, the app fails.

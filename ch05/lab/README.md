@@ -39,7 +39,7 @@ kubectl get pv
 Find the URL for the proxy:
 
 ```
-kubectl get svc todo-proxy-lab -o jsonpath='http://{.status.loadBalancer.ingress[0].*}:8082'
+kubectl get svc todo-proxy-lab -o jsonpath='http://{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}:8082'
 ```
 
 Browse, add some items, delete the pods:
