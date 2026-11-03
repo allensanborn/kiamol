@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "kiamol",
+  "project_id": "1c818b77-9895-458f-9962-2c5586937bbb"
+}
