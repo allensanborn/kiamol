@@ -151,7 +151,7 @@ block_11() {
 
 block_12() {
   # run a proxy to the Kubernetes API server:
-  kubectl proxy
+  pf_stop; kubectl proxy >/dev/null & pf_pid=$!; sleep 2
   # in a new terminal connect to the VM again:
   manual 'cd ch01/vagrant/'
   manual 'vagrant ssh'

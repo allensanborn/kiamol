@@ -47,7 +47,7 @@ block_4() {
   # show the Service for the function:
   kubectl get svc -l function=hello-kiamol
   # start a proxy to route HTTP requests to the cluster:
-  kubectl proxy -p 8080 &
+  pf_stop; kubectl proxy -p 8080 >/dev/null & pf_pid=$!; sleep 2
   # call the function using the proxy:
   curl http://localhost:8080/api/v1/namespaces/default/services/hello-kiamol:http-function-port/proxy/
   # but it's simpler to call it with the CLI:

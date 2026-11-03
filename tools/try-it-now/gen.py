@@ -95,6 +95,9 @@ def convert_block(chapter, lines):
         words = line.split()
         if line.startswith("kubectl port-forward "):
             cmd = "pf_start " + line[len("kubectl port-forward "):]
+        elif line.startswith("kubectl proxy"):
+            # serves until stopped; the book uses it in later commands, pf_stop ends it
+            cmd = f"pf_stop; {line.rstrip(' &')} >/dev/null & pf_pid=$!; sleep 2"
         elif re.search(r"\s-(it|ti)\s", line) and words[-1] in SHELLS:
             # interactive shell: send the lines up to "exit" into it
             inner = []
