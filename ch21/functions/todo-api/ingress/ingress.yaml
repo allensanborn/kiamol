@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1 
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-api
@@ -10,9 +10,12 @@ spec:
     http:
       paths:
       - path: /todos
+        pathType: ImplementationSpecific
         backend:
-          serviceName: todo-api
-          servicePort: 8080
+          service:
+            name: todo-api
+            port:
+              number: 8080
 
 # this spec is equivalent to running 
 # kubeless trigger http create todo-api --function-name todo-api --path todos --hostname api.todo.kiamol.local

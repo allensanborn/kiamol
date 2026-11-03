@@ -43,7 +43,7 @@ spec:
         name: traefik-ingress-lb
     spec:
       containers:
-      - image: traefik:v2.2.1
+      - image: traefik:v3.7.17
         name: traefik-ingress-lb
         ports:
         - name: http
@@ -75,30 +75,18 @@ metadata:
   name: ingress-traefik-controller
   namespace: kiamol-ingress-traefik
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - services
-      - endpoints
-      - secrets
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-    resources:
-      - ingresses
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-    - extensions
-    resources:
-    - ingresses/status
-    verbs:
-    - update
+  - apiGroups: [""]
+    resources: [services, secrets, nodes]
+    verbs: [get, list, watch]
+  - apiGroups: [discovery.k8s.io]
+    resources: [endpointslices]
+    verbs: [list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses, ingressclasses]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses/status]
+    verbs: [update]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

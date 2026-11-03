@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1 
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-new
@@ -14,12 +14,14 @@ spec:
       - pathType: Exact
         path: /new
         backend:
-          serviceName: todo-web
-          servicePort: 80
+          service:
+            name: todo-web
+            port:
+              number: 80
   tls:
    - secretName: kiamol-cert
 ---
-apiVersion: networking.k8s.io/v1beta1 
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo-static
@@ -27,10 +29,8 @@ metadata:
     kiamol: ch15
   annotations:
     nginx.ingress.kubernetes.io/proxy-buffering: "on" 
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_cache static-cache;
-      proxy_cache_valid 60m;
-      add_header X-Cache $upstream_cache_status;
+    # proxy_cache snippet removed: Traefik's ingress-nginx provider rejects the route
+    # when it sees proxy_cache, and has no response cache, so this serves uncached.
 spec:
   rules:
   - host: todo.kiamol.local
@@ -39,12 +39,14 @@ spec:
       - pathType: Prefix
         path: /static
         backend:
-          serviceName: todo-web
-          servicePort: 80
+          service:
+            name: todo-web
+            port:
+              number: 80
   tls:
    - secretName: kiamol-cert
 ---
-apiVersion: networking.k8s.io/v1beta1 
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: todo
@@ -58,12 +60,16 @@ spec:
       - pathType: Exact
         path: /
         backend:
-          serviceName: todo-web
-          servicePort: 80 
+          service:
+            name: todo-web
+            port:
+              number: 80
       - pathType: Exact
         path: /list
         backend:
-          serviceName: todo-web
-          servicePort: 80
+          service:
+            name: todo-web
+            port:
+              number: 80
   tls:
    - secretName: kiamol-cert
