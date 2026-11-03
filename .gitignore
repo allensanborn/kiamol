@@ -368,3 +368,10 @@ MigrationBackup/
 .ionide/
 ch10/pi/charts/vweb-2.0.0.tar.gz
 ch17/sa-token
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
+*.gate.lock*
