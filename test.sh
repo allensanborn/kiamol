@@ -2,6 +2,7 @@
 # Check the kiamol manifests still work on current Kubernetes.
 #   ./test.sh          schema check every manifest (kubeconform, offline after first run)
 #   ./test.sh cluster  server-side dry-run each chapter on a kind cluster, plus one real Pod
+#   ./test.sh book [chNN ...]  run the chapters' try-it-now.sh scripts (logs in .test-logs/)
 set -uo pipefail
 cd "$(dirname "$0")"
 
@@ -9,6 +10,18 @@ cd "$(dirname "$0")"
 manifests() {
   grep -rlE '^kind:' --include='*.yaml' --include='*.yml' --exclude-dir=docker-images "$1" | xargs grep -L '{{' | sort
 }
+
+if [[ "${1:-}" == book ]]; then
+  shift; ./cluster.sh up || exit
+  chapters=("$@"); ((${#chapters[@]})) || chapters=(ch*)
+  mkdir -p .test-logs; failed=0
+  for ch in "${chapters[@]}"; do
+    [[ -x $ch/try-it-now.sh ]] || continue
+    "$ch/try-it-now.sh" >".test-logs/$ch.log" 2>&1 || failed=1
+    grep -E "^$ch: " ".test-logs/$ch.log" || echo "$ch: no summary, see .test-logs/$ch.log"
+  done
+  exit $failed
+fi
 
 if [[ "${1:-}" != cluster ]]; then
   # Built-in kinds on removed API versions have no schema, so they fail as "could not find schema".

@@ -9,6 +9,11 @@ case "${1:-}" in
 up)
   kind get clusters 2>/dev/null | grep -qx kiamol || kind create cluster --name kiamol --wait 2m || exit
   kind export kubeconfig --name kiamol || exit
+  # The book was written on Docker Desktop, whose docker-for-desktop-binding made every
+  # service account cluster-admin (ch15 creates a Secret from inside a Pod; ch17 then
+  # patches this binding). Recreate it so the exercises behave as printed. Local only.
+  kubectl get clusterrolebinding docker-for-desktop-binding >/dev/null 2>&1 ||
+    kubectl create clusterrolebinding docker-for-desktop-binding --clusterrole=cluster-admin --group=system:serviceaccounts >/dev/null
   # Runs as a container so it needs no sudo on macOS. The chapters bring their own
   # ingress controllers, so the provider's default ingress and Gateway API are off.
   docker inspect $provider >/dev/null 2>&1 ||

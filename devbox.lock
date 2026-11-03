@@ -1,6 +1,103 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "bash@5.3p20": {
+      "last_modified": "2026-11-03T03:15:56Z",
+      "resolved": "github:NixOS/nixpkgs/9a6cbf4722bdbbef65f9e0400452ca088e31dc4b#bash",
+      "source": "devbox-search",
+      "version": "5.3p20",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/a8r42jvrfindh7hcbg535mab0kylnfr6-bash-interactive-5.3p20",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/fwhdr50wcl31lcj02ificy7d4yiddzcz-bash-interactive-5.3p20-man",
+              "default": true
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/3w8402q1q8x1ayyshq5i3awx2yv6bqaw-bash-interactive-5.3p20-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/ggdz7br3a39d8hi4548c4z7rf57542l0-bash-interactive-5.3p20-doc"
+            },
+            {
+              "name": "info",
+              "path": "/nix/store/3964wrvfvgcndswfny6cdijbqancxrm1-bash-interactive-5.3p20-info"
+            }
+          ],
+          "store_path": "/nix/store/a8r42jvrfindh7hcbg535mab0kylnfr6-bash-interactive-5.3p20"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/brnhnyb8lq3sfkdsdq10i5w85b120imz-bash-interactive-5.3p20",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/xfl4kbpd3s2nn4njah8nn4vdfkl5all9-bash-interactive-5.3p20-man",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/kss38cwpfccr9f0i5yz19cf6hzr078hw-bash-interactive-5.3p20-debug"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/mp16h7rx5nghmbrim2xz8blqyp9bs3av-bash-interactive-5.3p20-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/65d0w0zyj2dkilnk4xdcg6rigq5bvnhm-bash-interactive-5.3p20-doc"
+            },
+            {
+              "name": "info",
+              "path": "/nix/store/a9grajh099nyky91jy7ab35ky86wsl5a-bash-interactive-5.3p20-info"
+            }
+          ],
+          "store_path": "/nix/store/brnhnyb8lq3sfkdsdq10i5w85b120imz-bash-interactive-5.3p20"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kwyi4bq5s2qgwbhz6cs4gjy57c2zdxws-bash-interactive-5.3p20",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/lgiispyin8621zdwxgl9x89cbnvdkxd6-bash-interactive-5.3p20-man",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/w6b66l2mgmq42fcbawvz86fgh1vklsf5-bash-interactive-5.3p20-debug"
+            },
+            {
+              "name": "dev",
+              "path": "/nix/store/hr8avz4gx4fbfrjjibn3vhf7cdikhc1y-bash-interactive-5.3p20-dev"
+            },
+            {
+              "name": "doc",
+              "path": "/nix/store/hzbsyh4gfg924ljrkn74iyhxzfvmfdpk-bash-interactive-5.3p20-doc"
+            },
+            {
+              "name": "info",
+              "path": "/nix/store/1czk0mzmxhn6437zm6gf2naly8gf3l6k-bash-interactive-5.3p20-info"
+            }
+          ],
+          "store_path": "/nix/store/kwyi4bq5s2qgwbhz6cs4gjy57c2zdxws-bash-interactive-5.3p20"
+        }
+      }
+    },
     "beads@1.3.2": {
       "last_modified": "2026-11-03T03:15:56Z",
       "resolved": "github:NixOS/nixpkgs/9a6cbf4722bdbbef65f9e0400452ca088e31dc4b#beads",

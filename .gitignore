@@ -375,3 +375,4 @@ ch17/sa-token
 .beads-credential-key
 .beads/proxieddb/
 *.gate.lock*
+.test-logs/

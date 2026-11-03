@@ -11,7 +11,8 @@
     "git@2.54.0",
     "curl@8.22.0",
     "docker-client@29.8.2",
-    "devcontainer@0.89.0"
+    "devcontainer@0.89.0",
+    "bash@5.3p20"
   ],
   "shell": {
     "scripts": {
