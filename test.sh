@@ -17,8 +17,7 @@ if [[ "${1:-}" != cluster ]]; then
   exit
 fi
 
-kind get clusters 2>/dev/null | grep -qx kiamol || kind create cluster --name kiamol --wait 2m
-kind export kubeconfig --name kiamol || exit
+./cluster.sh up || exit
 
 failed=0
 for ch in ch*/; do
