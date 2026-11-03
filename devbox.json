@@ -11,5 +11,8 @@
       "test": "./test.sh",
       "test-cluster": "./test.sh cluster"
     }
+  },
+  "env": {
+    "DOLT_REMOTE_INFO_BRANCH": ""
   }
 }
