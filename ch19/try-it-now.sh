@@ -133,62 +133,19 @@ block_10() {
 }
 
 block_11() {
-  # from the kiamol source root, create a VM with Vagrant:
-  manual 'cd ch01/vagrant/'
-  # create the new VM:
-  manual 'vagrant up'
-  # connect to the VM:
-  manual 'vagrant ssh'
-  # switch to this chapter's source inside the VM:
-  manual 'cd /kiamol/ch19'
-  # create a customized Kind cluster:
-  manual 'kind create cluster --name kiamol-ch19--config ./kind/kiamol-ch19-config.yaml --image kindest/node:v1.18.8'
-  # wait for the node to be ready:
-  kubectl -n kube-system wait --for=condition=Ready node --all
-  # print the VM's memory stats:
-  ./kind/print-memory.sh
+  manual 'block 11 runs on a separate cluster'
 }
 
 block_12() {
-  # run a proxy to the Kubernetes API server:
-  pf_stop; kubectl proxy >/dev/null & pf_pid=$!; sleep 2
-  # in a new terminal connect to the VM again:
-  manual 'cd ch01/vagrant/'
-  manual 'vagrant ssh'
-  # make a GET request to see the kubelet config:
-  curl -sSL "http://localhost:8001/api/v1/nodes/$(kubectl get node -o jsonpath={'.items[0].metadata.name'})/proxy/configz"
+  manual 'block 12 runs on a separate cluster'
 }
 
 block_13() {
-  # the stress Pods will allocate 1.2 GB of RAM:
-  kubectl apply -f stress/stress.yaml
-  settle
-  # wait for them all to start:
-  kubectl wait --for=condition=ContainersReady pod -l app=stress
-  # print the node's memory stats:
-  ./kind/print-memory.sh
-  # list the Pods:
-  kubectl get pods -l app=stress
-  # remove the Deployment:
-  kubectl delete -f stress/stress.yaml
+  manual 'block 13 runs on a separate cluster'
 }
 
 block_14() {
-  # create the custom priority classes:
-  kubectl apply -f priority-classes/
-  settle
-  # deploy apps with high and low priorities:
-  kubectl apply -f stress/with-priorities/
-  settle
-  # wait for the Pods to run:
-  kubectl wait --for=condition=ContainersReady pod -l app=stress
-  wait
-  # print the memory stats:
-  ./kind/print-memory.sh
-  # confirm that the node is under memory pressure:
-  kubectl describe node | grep MemoryPressure
-  # print the Pod list:
-  kubectl get pods -l app=stress
+  manual 'block 14 runs on a separate cluster'
 }
 
 block_15() {

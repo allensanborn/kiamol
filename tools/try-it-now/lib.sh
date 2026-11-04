@@ -4,8 +4,10 @@
 set -uo pipefail
 set -ET  # ERR and DEBUG traps also fire inside the block functions
 
-commands=0 failures=0 expected_failures=0 skipped=0
-failed_cmds=()
+commands=0 failures=0 expected_failures=0 skipped=0 nonzero=0
+failed_cmds=() nonzero_cmds=() _last_line= _last_cmd=
+# Steps that show the process works: deploys, waits, and reaching the app. Only these count as failures.
+CHECKS='^(kubectl (apply|create|wait|rollout)|helm (install|upgrade)|browse|hosts_add|pf_start)[[:space:]]' 
 pf_pid=
 resolve=()   # curl --resolve args standing in for the book's /etc/hosts edits
 HELPERS=" settle expected manual pf_stop "
@@ -14,13 +16,24 @@ _on_debug() {
   # top-level book commands only, not helpers or $(...) substitutions; stderr so
   # the echo can't end up inside a substitution's output
   ((BASH_SUBSHELL == 0)) && [[ ${FUNCNAME[1]:-} == block_* && $HELPERS != *" ${BASH_COMMAND%% *} "* ]] || return 0
+  # DEBUG fires again on the same line before the ERR handler; log each line once
+  [[ ${BASH_LINENO[0]} == "$_last_line" ]] && return 0
+  _last_line=${BASH_LINENO[0]} _last_cmd=$BASH_COMMAND
   commands=$((commands + 1))
   printf '\033[36m$ %s\033[0m\n' "$BASH_COMMAND" >&2
 }
 _on_err() {
   ((BASH_SUBSHELL == 0)) && [[ ${FUNCNAME[1]:-} == block_* ]] || return 0
-  failures=$((failures + 1)); failed_cmds+=("block ${FUNCNAME[1]#block_}: $BASH_COMMAND")
-  printf '\033[31mFAILED (exit %s)\033[0m\n' "$1" >&2
+  local where="block ${FUNCNAME[1]#block_}: $_last_cmd"
+  if [[ $_last_cmd =~ $CHECKS ]]; then
+    failures=$((failures + 1)); failed_cmds+=("$where")
+    printf '\033[31mFAILED (exit %s)\033[0m\n' "$1" >&2
+  else
+    # the book often shows commands that exit non-zero (printenv of an unset var,
+    # logs of a crashing app, deleting what another file already deleted)
+    nonzero=$((nonzero + 1)); nonzero_cmds+=("$where")
+    printf '\033[33mnon-zero exit %s (informational)\033[0m\n' "$1" >&2
+  fi
 }
 trap '_on_debug' DEBUG
 trap '_on_err $?' ERR
@@ -95,7 +108,8 @@ main() {
     "block_$b"; pf_stop; settle
   done
   echo
-  echo "$chapter: $commands commands, $failures failed, $expected_failures failed as the book expects, $skipped skipped (manual)"
+  echo "$chapter: $commands commands, $failures failed, $expected_failures failed as the book expects, $nonzero other non-zero, $skipped skipped (manual)"
   for b in ${failed_cmds[@]+"${failed_cmds[@]}"}; do echo "  failed: $b"; done
+  for b in ${nonzero_cmds[@]+"${nonzero_cmds[@]}"}; do echo "  non-zero: $b"; done
   ((failures == 0))
 }

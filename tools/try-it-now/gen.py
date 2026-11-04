@@ -32,6 +32,9 @@ EXPECT_FAIL = re.compile(
 DIFFERS = {
     r"/etc/nginx/nginx\.conf": "the nginx ingress controller is Traefik in this fork (ingress-nginx is archived)",
 }
+# Blocks the book runs on a separate cluster (Calico kind cluster, Vagrant VM); running
+# them on the shared cluster breaks it (ch16's Calico replaces kind's network plugin).
+OTHER_CLUSTER = {"ch16": {3, 5}, "ch19": {11, 12, 13, 14}}
 DEPLOYS = re.compile(r"^(kubectl (apply|create|scale|rollout undo|set|label|expose|run)|helm (install|upgrade|rollback))\b")
 SHELLS = {"sh", "bash", "/bin/sh", "/bin/bash"}
 
@@ -140,7 +143,10 @@ def generate(chapter, blocks):
         "source ../tools/try-it-now/lib.sh",
     ]
     for n, lines in enumerate(blocks, 1):
-        body = convert_block(chapter, lines) or [":"]
+        if n in OTHER_CLUSTER.get(chapter, ()):
+            body = [f"manual {shlex.quote(f'block {n} runs on a separate cluster')}"]
+        else:
+            body = convert_block(chapter, lines) or [":"]
         out += ["", f"block_{n}() {{"] + ["  " + l for l in body] + ["}"]
     out += ["", 'main "$@"', ""]
     return "\n".join(out)

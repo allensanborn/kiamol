@@ -36,17 +36,7 @@ block_2() {
 }
 
 block_3() {
-  # install the Kind command line using instructions at
-  # https://kind.sigs.k8s.io/docs/user/quick-start/
-  # create a new cluster with a custom Kind configuration:
-  manual 'kind create cluster --image kindest/node:v1.18.4 --name kiamol-ch16 --config kind/kind-calico.yaml'
-  # install the Calico network plugin:
-  kubectl apply -f kind/calico.yaml
-  settle
-  # wait for Calico to spin up:
-  kubectl wait --for=condition=ContainersReady pod -l k8s-app=calico-node -n kube-system
-  # confirm your new cluster is ready:
-  kubectl get nodes
+  manual 'block 3 runs on a separate cluster'
 }
 
 block_4() {
@@ -70,14 +60,7 @@ block_4() {
 }
 
 block_5() {
-  # delete the new cluster:
-  kind delete cluster --name kiamol-ch16
-  # list your Kubernetes contexts:
-  kubectl config get-contexts
-  # switch back to your previous cluster:
-  manual 'kubectl config set-context <your_old_cluster_name>'
-  # see if you can connect:
-  kubectl get nodes
+  manual 'block 5 runs on a separate cluster'
 }
 
 block_6() {
